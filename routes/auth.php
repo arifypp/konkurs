@@ -105,7 +105,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::put('password', [AdminPasswordController::class, 'update'])->name('password.update');
 
-        Route::post('logout', [AdminAuthenticatedSessionControllerler::class, 'destroy'])
+        Route::post('logout', [AdminAuthenticatedSessionController::class, 'destroy'])
             ->name('logout');
     });
 });

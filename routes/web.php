@@ -18,17 +18,43 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Auth/Login', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->middleware(['guest']);
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+/**
+ * ======================================================================================================
+ * 1. Middleware with Inertia and user authentication (auth) and email verification (verified) enabled
+ * ======================================================================================================
+ */
+Route::middleware(['auth', 'verified'])->prefix('user')->name('user.')->namespace('\App\Http\Controllers\User')->group(function () {
+
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+    //*================== KonkursCategory ==================*//
+    Route::resource('konkurs-category', 'KonkursCategoryController');
+
+    //*================== Konkurs ==================*//
+    Route::prefix('konkurs')->group(function () {
+        Route::get('/', 'KonkursDataController@index')->name('konkurs.index');
+        Route::get('/create', 'KonkursDataController@create')->name('konkurs.create');
+        Route::get('/export/{id}', 'KonkursDataController@export')->name('konkurs.export');
+        Route::get('/today', 'KonkursDataController@today')->name('konkurs.today');
+        Route::get('/yesterday', 'KonkursDataController@yesterday')->name('konkurs.yesterday');
+        Route::get('/monthly', 'KonkursDataController@monthly')->name('konkurs.monthly');
+        Route::get('/yearly', 'KonkursDataController@yearly')->name('konkurs.yearly');
+        Route::get('/sendmail/{id}', 'KonkursDataController@sendmail')->name('konkurs.sendmail');
+        Route::post('/', 'KonkursDataController@store')->name('konkurs.store');
+        Route::get('/{konkurs}', 'KonkursDataController@show')->name('konkurs.show');
+        Route::get('/{konkurs}/edit', 'KonkursDataController@edit')->name('konkurs.edit');
+        Route::put('/{konkurs}', 'KonkursDataController@update')->name('konkurs.update');
+        Route::delete('/{konkurs}', 'KonkursDataController@destroy')->name('konkurs.destroy');
+    });    
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
