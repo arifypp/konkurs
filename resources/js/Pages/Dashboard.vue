@@ -1,115 +1,3 @@
-<script setup>
-import {
-    DashboardOutlined,
-    DesktopOutlined,
-    UserOutlined,
-    TeamOutlined,
-    FileOutlined,
-    DownOutlined,
-    ArrowUpOutlined,
-    ArrowDownOutlined,
-} from '@ant-design/icons-vue';
-import { ref, onMounted  } from 'vue';
-import { Link, useForm, usePage, Head, router } from '@inertiajs/vue3';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import ApexCharts from 'apexcharts';
-
-const collapsed = ref(false);
-const selectedKeys = ref(['1']);
-// Count today, yesterday, month, year
-const today = ref(usePage().props.today);
-const yesterday = ref(usePage().props.yesterday);
-const month = ref(usePage().props.month);
-const year = ref(usePage().props.year);
-
-const toggleCollapsed = () => {
-  collapsed.value = !collapsed.value;
-};
-const handleClick = (e) => {
-  console.log('click ', e);
-  selectedKeys.value = e.key;
-};
-const logo = ref('/public/logo.png');
-
-const BigChart = ref(null);
-const SmallChart = ref(null);
-onMounted(() => {
-  const ChartOne = {
-          series: [{
-            name: 'Konkurs',
-            data: [44, 55, 57, 56, 61, 58, 63]
-          }],
-            chart: {
-            width: '100%',
-            type: 'bar',
-            gap: 10,
-            height: 350
-          },
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              columnWidth: '30%',
-              endingShape: 'rounded'
-            },
-          },
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-          },
-          xaxis: {
-            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-          },
-          yaxis: {
-            title: {
-              text: 'Konkurs Chart'
-            }
-          },
-          fill: {
-            opacity: 1
-          },
-          tooltip: {
-            y: {
-              formatter: function (val) {
-                return val + " data"
-              }
-            }
-          }
-      
-  };
-  BigChart.value = new ApexCharts(document.querySelector('#chartbar'), ChartOne);
-  BigChart.value.render();
-
-  
-  const ChartTwoOption =   {
-      series: [today.value, yesterday.value, month.value, year.value],
-      chart: {
-      width: 380,
-      type: 'pie',
-      height: 350
-    },
-    labels: ['Today', 'Yesterday', 'Month', 'Year'],
-    responsive: [{
-      breakpoint: 480,
-      options: {
-        chart: {
-          width: 200
-        },
-        legend: {
-          position: 'bottom'
-        }
-      }
-    }]      
-  };
-  SmallChart.value = new ApexCharts(document.querySelector('#chartbarsmall'), ChartTwoOption);
-  SmallChart.value.render();
-});
-
-</script>
-
 <template>
     <Head title="Dashboard" />
 
@@ -117,6 +5,11 @@ onMounted(() => {
         <a col :span="24">
           <div class="mb-5">
             <a-range-picker value-format="YYYY-MM-DD" class="mb-3" />
+            <!-- Add digital clock right side -->
+            <a-space size="small" class="float-right">
+              <a-typography-title :level="3">{{ currentTime.toLocaleTimeString() }}</a-typography-title>
+              <a-typography-title :level="5">{{ currentDate }}</a-typography-title>
+            </a-space>
           </div>
         </a>
         <a-row :gutter="16">
@@ -202,3 +95,136 @@ onMounted(() => {
 
     </AuthenticatedLayout>
 </template>
+
+<script>
+import { ref, onMounted  } from 'vue';
+import {
+    DashboardOutlined,
+    DesktopOutlined,
+    UserOutlined,
+    TeamOutlined,
+    FileOutlined,
+    DownOutlined,
+    ArrowUpOutlined,
+    ArrowDownOutlined,
+} from '@ant-design/icons-vue';
+import { Link, useForm, usePage, Head, router } from '@inertiajs/vue3';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import ApexCharts from 'apexcharts';
+import { useCurrentTime } from "@/timer";
+
+export default {
+    components: {
+        AuthenticatedLayout,
+        DashboardOutlined,
+        DesktopOutlined,
+        UserOutlined,
+        TeamOutlined,
+        FileOutlined,
+        DownOutlined,
+        ArrowUpOutlined,
+        ArrowDownOutlined,
+        Head,
+    },
+    setup() {
+      // Current time
+      const { currentTime } = useCurrentTime();
+      // Get today date from vue
+      const currentDate = new Date().toLocaleDateString();
+      // Chart Bar data
+      const today = ref(usePage().props.today);
+      const yesterday = ref(usePage().props.yesterday);
+      const month = ref(usePage().props.month);
+      const year = ref(usePage().props.year);
+        // Chart Bar
+        onMounted(() => {
+          var options = {
+            series: [{
+              name: 'Konkurs',
+              data: [44, 55, 41, 67, 22, 43, 21, 49, 45, 50, 60, 70]
+            }],
+            chart: {
+              type: 'bar',
+              height: 350,
+              stacked: true,
+              toolbar: {
+                show: false,
+              },
+              zoom: {
+                enabled: true
+              }
+            },
+            responsive: [{
+              breakpoint: 480,
+              options: {
+                legend: {
+                  position: 'bottom',
+                  offsetX: -10,
+                  offsetY: 0
+                }
+              }
+            }],
+            plotOptions: {
+              bar: {
+                horizontal: false,
+              },
+            },
+            xaxis: {
+              type: 'category',
+              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            },
+            legend: {
+              position: 'right',
+              offsetY: 40
+            },
+            fill: {
+              opacity: 1
+            }
+          };
+          var chart = new ApexCharts(document.querySelector("#chartbar"), options);
+          chart.render();
+        });
+        
+        // Chart Bar Small
+        onMounted(() => {
+          var options = {
+            series: [today.value, yesterday.value, month.value, year.value],
+      chart: {
+      width: 380,
+      type: 'pie',
+      height: 350
+    },
+    labels: ['Today', 'Yesterday', 'Month', 'Year'],
+            responsive: [{
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200
+                },
+                legend: {
+                  position: 'bottom'
+                }
+              }
+            }]  
+          };
+          var chart = new ApexCharts(document.querySelector("#chartbarsmall"), options);
+          chart.render();
+        });
+
+        return {
+          today,
+          yesterday,
+          month,
+          year,
+          currentTime,
+          currentDate,
+        }
+
+    },
+    methods: {
+      logout() {
+        this.$inertia.post('/logout');
+      },
+    }
+}
+</script>

@@ -9,7 +9,16 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+const skelloading = ref(false);
 
+// skelloading.value = true when loading the page content
+window.addEventListener('beforeunload', () => {
+    skelloading.value = true;
+});
+// when changing the page, show the loading spinner
+window.addEventListener('page-loading', () => {
+    skelloading.value = true;
+});
 const showingNavigationDropdown = ref(false);
 </script>
 
@@ -28,7 +37,9 @@ const showingNavigationDropdown = ref(false);
                 </a-breadcrumb>
                 <!-- Body Section -->
                 <div :style="{ padding: 0 }">
+                    <a-skeleton :loading="skelloading">
                     <slot />
+                    </a-skeleton>
                 </div>
             </a-layout-content>
             <!-- Footer -->
