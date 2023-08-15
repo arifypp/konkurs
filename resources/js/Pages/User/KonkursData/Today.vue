@@ -218,14 +218,6 @@ export default {
             },
         ]);
 
-        const pagination = ref({
-            current: 1,
-            pageSize: 10,
-            total: 0,
-            showSizeChanger: true,
-            showTotal: (total, range) => `Showing ${range[0]}-${range[1]} of ${total} items`,
-        });
-
         const AddKonkursDrawer = () => {
             AddKonkursVisible.value = true;
         };
@@ -344,7 +336,6 @@ export default {
             TodayKonkurs,
             columns,
             loading,
-            pagination,
             moment,
             categories,
             getCategoryName,

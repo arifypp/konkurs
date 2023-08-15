@@ -260,6 +260,11 @@ export default {
                     disabled.value = false;
                     AddKonkursVisible.value = false;
                     message.success("Konkurs Created Successfully");
+                    form.reset();
+                    router.push({ name: 'user.konkurs.index' });
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
                 },
                 onError: () => {
                 disabled.value = false;

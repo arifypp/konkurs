@@ -5,7 +5,7 @@
     <Add :visible="AddKonkursVisible" @close="AddKonkursVisible = false" />
     <template #header>
       <a-breadcrumb-item>Manage Konkurs</a-breadcrumb-item>
-      <a-button type="primary" style="float: right;" @click="AddKonkursDrawer">
+        <a-button type="primary" style="float: right;" @click="AddKonkursVisible = true">
         <template #icon>
           <PlusOutlined />
         </template>
@@ -97,7 +97,7 @@
                 </a-form>
                 <a-divider />
                 <!-- Table data with pagination -->
-                <a-table :columns="columns" :data-source="data" :pagination="pagination" :loading="loading" :rowKey="record => record.id">
+                <a-table :columns="columns" :data-source="data" :pagination="pagination" :loading="loading" showSizeChanger="true" :rowKey="record => record.id">
                     <template #konkurs_name="{ text }">
                         <Link :href="route('user.konkurs.show', text)">
                             {{ text }}
@@ -226,13 +226,13 @@ import Edit from '@/Pages/User/KonkursData/Edit.vue';
             };
             const loading = ref(false);
 
-            const pagination = ref({
-                current: 1,
-                pageSize: 10,
-                total: 0,
-                showSizeChanger: true,
-                showQuickJumper: true,
-            });
+            // const pagination = ref({
+            //     current: 1,
+            //     pageSize: 10,
+            //     total: 0,
+            //     showSizeChanger: true,
+            //     showQuickJumper: true,
+            // });
 
             const handleTableChange = (pagination, filters, sorter) => {
                 console.log(pagination);
@@ -244,9 +244,6 @@ import Edit from '@/Pages/User/KonkursData/Edit.vue';
                 console.log('Success:', values);
             };
 
-            const AddKonkursDrawer = () => {
-                AddKonkursVisible.value = true;
-            };
             // Edit Konkurs component
             // get form data from EditKonkurs component
             const Editform = ref(null);
@@ -293,10 +290,9 @@ import Edit from '@/Pages/User/KonkursData/Edit.vue';
                 columns,
                 data,
                 loading,
-                pagination,
+                // pagination,
                 handleTableChange,
                 onFinish,
-                AddKonkursDrawer,
                 moment,
                 getCategoryName,
                 categories,

@@ -3,6 +3,7 @@ import '../css/app.css';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import { createApp, h } from 'vue';
+import { router } from '@inertiajs/vue3'
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
