@@ -86,6 +86,7 @@
                         :data-source="TodayKonkurs"
                         :pagination="pagination"
                         :loading="loading"
+                        showSizeChanger="true"
                         :row-selection="rowSelection" 
                         :rowKey="record => record.id"
                         @change="handleTableChange"
