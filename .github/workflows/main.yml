@@ -17,4 +17,4 @@ jobs:
         server: ftp.happyarif.com
         username: info@happyarif.com
         password: Happy@01953291938
-        server-dir: /home/happyarif/konkurs.happyarif.com/
+        server-dir: /konkurs.happyarif.com/
