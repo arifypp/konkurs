@@ -125,6 +125,34 @@ class KonkursDataController extends Controller
     }
     
 
+    /**
+     * Show konkurs
+     */
+    public function show(string $id)
+    {
+        $konkursData = Konkursdata::with('konkurs_category')->findOrFail($id);
+        // return Inertia::render('User/KonkursData/Show', [
+        //     'konkursData' => $konkursData
+        // ]);
+        // return redirect()->back()->with('konkursSingleData', $konkursData);
+        return response()->json($konkursData);
+    }
+
+
+    /**
+     * Custom send
+     */
+    public function customSending(string $id)
+    {
+        $konkursData = Konkursdata::findOrFail($id);
+        if ($konkursData->email_send == 1) {
+            return response()->json(['message' => 'Konkursdata already send.']);
+        }
+        $konkursData->email_send = 1;
+        $konkursData->save();
+
+        return response()->json(['message' => 'Konkursdata send successfully.']);
+    }
     
 
     /**
@@ -157,15 +185,7 @@ class KonkursDataController extends Controller
         $konkursData->konkurs_advocate_email = $request->input('advocateemail');
         $konkursData->save();
 
-        return Redirect::route('user.konkurs.index')->with('success', 'Konkursdata added successfully.')->with('konkursData', $konkursData);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return Redirect::back()->with('success', 'Konkursdata added successfully.')->with('konkursData', $konkursData);
     }
 
     /**

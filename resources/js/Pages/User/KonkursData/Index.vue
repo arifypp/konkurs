@@ -98,11 +98,11 @@
                 <a-divider />
                 <!-- Table data with pagination -->
                 <a-table :columns="columns" :data-source="data" :pagination="pagination" :loading="loading" showSizeChanger="true" :rowKey="record => record.id">
-                    <template #konkurs_name="{ text }">
-                        <Link :href="route('user.konkurs.show', text)">
+                    <template #konkurs_name="{ text, record }">
+                        <a :href="'#' + record.id" @click.prevent="ShowKonkur(record.id)">
                             {{ text }}
                             {{ text.length > 10 ? '...' : '' }}
-                        </Link>
+                        </a>
                     </template>
                     <template #created_at="{ text }">
                         {{ moment(text).format('DD MMMM, YYYY') }}
@@ -131,6 +131,7 @@
                         </span>
                     </template>
                 </a-table>
+                <Show :visible="ShowKonkursVisible" @close="ShowKonkursVisible = false" :id="ShowKonkursId" :konkurs="konkurs" />
                 <Edit :visible="EditKonkursVisible" :id="EditKonkursId" @close="EditKonkursVisible = false" />
             </a-card>
         </a-col>
@@ -146,7 +147,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Modal, message } from 'ant-design-vue';
 import moment from 'moment';
 import Add from '@/Pages/User/KonkursData/Add.vue';
+import Show from '@/Pages/User/KonkursData/Show.vue';
 import Edit from '@/Pages/User/KonkursData/Edit.vue';
+import axios from 'axios';
     export default {
         components: {
             AuthenticatedLayout,
@@ -158,13 +161,17 @@ import Edit from '@/Pages/User/KonkursData/Edit.vue';
             Head,
             Link,
             Add,
+            Show,
             Edit,
             Modal,
         },
         setup() {
             const AddKonkursVisible = ref(false);
+            const ShowKonkursVisible = ref(false);
+            const konkurs = ref(null);
             const EditKonkursVisible = ref(false);
             const EditKonkursId = ref(null);
+            const ShowKonkursId = ref(null);
             const form = useForm({
                 from_date: null,
                 to_date: null,
@@ -244,6 +251,21 @@ import Edit from '@/Pages/User/KonkursData/Edit.vue';
                 console.log('Success:', values);
             };
 
+            // Show konkurs
+            const ShowKonkur = (id) => {
+                ShowKonkursVisible.value = true;
+                ShowKonkursId.value = id;
+                // get data from backend in axios
+                axios.get(route('user.konkurs.show', { id: id }))
+                    .then((response) => {
+                        console.log(response.data);
+                        konkurs.value = response.data;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            };
+
             // Edit Konkurs component
             // get form data from EditKonkurs component
             const Editform = ref(null);
@@ -284,6 +306,7 @@ import Edit from '@/Pages/User/KonkursData/Edit.vue';
             
             return {
                 AddKonkursVisible,
+                ShowKonkursVisible,
                 form,
                 formLayout,
                 dateFormat,
@@ -296,6 +319,9 @@ import Edit from '@/Pages/User/KonkursData/Edit.vue';
                 moment,
                 getCategoryName,
                 categories,
+                ShowKonkur,
+                konkurs,
+                ShowKonkursId,
                 EditKonkurs,
                 EditKonkursVisible,
                 EditKonkursId,

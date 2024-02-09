@@ -51,9 +51,8 @@
                 <!-- Form left -->
                 <a-col :span="12">
                     <a-form-item label="Konkurs phone" name="phone">
-                        <!-- Phone with search button -->
                         <a-input-group compact>
-                            <a-input style="width: 70%" v-model:value="form.phone" />
+                            <a-input style="width: 70%" v-model:value="form.phone" @input="form.phone = form.phone.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')" />
                             <a-button type="primary" style="width: 30%" @click="onSearch" :loading="SearchLoading">
                                 <template #icon>
                                     <search-outlined />
@@ -144,6 +143,7 @@ export default {
             advocateemail: '',
             advocaname: '',
         });
+        
         // form post
         const rules = ref({
             name: [
@@ -163,7 +163,8 @@ export default {
                     required: true,
                     pattern: /^[0-9]*$/,
                     onInput: (e) => {
-                        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                        // Remove spaces from the input value
+                        e.target.value = e.target.value.replace(/\s/g, '');
                     },
                     message: 'Please input Konkurs Phone',
                 },
@@ -261,7 +262,7 @@ export default {
                     AddKonkursVisible.value = false;
                     message.success("Konkurs Created Successfully");
                     form.reset();
-                    router.push({ name: 'user.konkurs.index' });
+                    // router.push({ name: 'user.konkurs.index' });
                     setTimeout(() => {
                         location.reload();
                     }, 1000);

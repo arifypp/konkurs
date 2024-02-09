@@ -91,11 +91,11 @@
                         :rowKey="record => record.id"
                         @change="handleTableChange"
                     >
-                        <template #konkurs_name="{ text }">
-                            <Link :href="route('user.konkurs.show', text)">
+                        <template #konkurs_name="{ text, record }">
+                            <a :href="'#' + record.id" @click.prevent="ShowKonkur(record.id)">
                                 {{ text }}
                                 {{ text.length > 10 ? '...' : '' }}
-                            </Link>
+                            </a>
                         </template>
                         <template #created_at="{ text }">
                             {{ moment(text).format('DD MMMM, YYYY') }}
@@ -128,6 +128,7 @@
                             </span>
                         </template>
                     </a-table>
+                    <Show :visible="ShowKonkursVisible" @close="ShowKonkursVisible = false" :id="ShowKonkursId" :konkurs="konkurs" />
                 </a-card>
             </a-col>
         </a-row>
@@ -140,6 +141,7 @@ import { MailOutlined, CalendarOutlined, SendOutlined, DeleteOutlined, FileExcel
 import { Link, useForm, usePage, Head, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Add from '@/Pages/User/KonkursData/Add.vue';
+import Show from '@/Pages/User/KonkursData/Show.vue';
 import { Modal, message } from 'ant-design-vue';
 import moment from 'moment';
 
@@ -156,13 +158,17 @@ export default {
         Head,
         Link,
         Add,
+        Show,
     },
     setup() {
+        const ShowKonkursId = ref(null);
+        const konkurs = ref(null);
         // const { data: { konkurs } } = usePage().props;
         const TodayKonkurs = usePage().props.konkursData;
         const loading = ref(false);
         const AddKonkursVisible = ref(false);
         const categories = ref(usePage().props.konkursCategories);
+        const ShowKonkursVisible = ref(false);
         const getCategoryName = (id) => {
             const category = categories.value.find((category) => category.id == id);
             return category ? category.name : '';
@@ -325,9 +331,26 @@ export default {
                 // .catch(() => {});
             
         };
+
+        // Show konkurs
+        const ShowKonkur = (id) => {
+            ShowKonkursVisible.value = true;
+            ShowKonkursId.value = id;
+            // get data from backend in axios
+            axios.get(route('user.konkurs.show', { id: id }))
+                .then((response) => {
+                    console.log(response.data);
+                    konkurs.value = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        };
         
         return {
-            // konkurs,
+            ShowKonkursVisible,
+            ShowKonkur,
+            konkurs,
             AddKonkursVisible,
             AddKonkursDrawer,
             handleClick,

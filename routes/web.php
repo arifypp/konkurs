@@ -41,6 +41,8 @@ Route::middleware(['auth', 'verified'])->prefix('user')->name('user.')->namespac
     //*================== Konkurs ==================*//
     Route::prefix('konkurs')->group(function () {
         Route::get('/', 'KonkursDataController@index')->name('konkurs.index');
+        Route::get('/show/{id}', 'KonkursDataController@show')->name('konkurs.show');
+        Route::get('/customSending/{id}', 'KonkursDataController@customSending')->name('konkurs.customSending');
         Route::get('/create', 'KonkursDataController@create')->name('konkurs.create');
         Route::get('/export/{id}', 'KonkursDataController@export')->name('konkurs.export');
         Route::get('/today', 'KonkursDataController@today')->name('konkurs.today');
