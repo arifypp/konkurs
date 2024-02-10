@@ -50,8 +50,8 @@
                     Advocate Email: <a href="mailto:{{ konkurs.konkurs_advocate_email }}" @click.prevent="MailCopied">{{ konkurs.konkurs_advocate_email }}</a>
                 </a-col>
                 <a-divider title="Konkurs Description" />
-                <!-- Design a mail format with multiple lines and copy to clipboard -->
                 <a-col :span="24">
+                    <a-input type="text" class="mb-3" :value="'Konkursboet til ' + konkurs.konkurs_name" readonly style="width: 100%; margin-bottom:10px;" @click.prevent="subjectCopy"/>
                     <textarea rows="15" style="width: 100%" readonly @click.prevent="CopyMailBody">Hei {{ konkurs.konkurs_advocate }},
 
 Jeg ser at du er oppnevnt som bobestyrer i boet til {{ konkurs.konkurs_name }}. I den forbindelse lurer jeg på om det er eiendeler/fordringer eller varelager som skal selges? Om det er tilfelle så er vi interessert i å komme med et bud. Vi sørger for at penger overføres samme dag som avtalen skrives. Sabba Invest AS kjøper konkursbo fra kr 1 000 til kr 5 000 000
@@ -125,20 +125,17 @@ export default {
                     loading.value = false;
                     disabled.value = false;
                     // Show the success message
-                    message.success(response.data.message);
-                    // Close the drawer
-                    onClose();
-                    // reload the page after 2 seconds
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1000);
+                    message.success(response.message);
+                    // hide the drawer
+                    ShowKonkursVisible.value = false;
                 })
                 .catch((error) => {
                     // Set the loading and disabled to false
                     loading.value = false;
                     disabled.value = false;
                     // Show the error message
-                    message.error(error.response.data.message);
+                    message.error(error.response.message);
+                    ShowKonkursVisible.value = false;
                 });
         };
 
@@ -181,6 +178,16 @@ export default {
             // Show the success message
             message.success('Mail body copied to clipboard');
         };
+        
+        // subjectCopy
+        const subjectCopy = (e) => {
+            // Prevent the default action
+            e.preventDefault();
+            // Copy the subject to clipboard
+            navigator.clipboard.writeText('Konkursboet til ' + konkurs.value.konkurs_name);
+            // Show the success message
+            message.success('Subject copied to clipboard');
+        };
 
         return {
             loading,
@@ -193,7 +200,8 @@ export default {
             MailCopied,
             KonkursMailSend,
             CopyMailBody,
-            NameCopied
+            NameCopied,
+            subjectCopy
         };
     },
     
