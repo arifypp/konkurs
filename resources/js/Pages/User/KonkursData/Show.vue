@@ -125,16 +125,20 @@ export default {
                     loading.value = false;
                     disabled.value = false;
                     // Show the success message
-                    message.success(response.message);
-                    // hide the drawer
-                    ShowKonkursVisible.value = false;
+                    message.success(response.data.message);
+                    // Close the drawer
+                    onClose();
+                    // reload the page after 2 seconds
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
                 })
                 .catch((error) => {
                     // Set the loading and disabled to false
                     loading.value = false;
                     disabled.value = false;
                     // Show the error message
-                    message.error(error.response.message);
+                    message.error(error.response.data.message);
                     ShowKonkursVisible.value = false;
                 });
         };
