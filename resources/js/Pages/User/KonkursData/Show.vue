@@ -58,11 +58,12 @@ Jeg ser at du er oppnevnt som bobestyrer i boet til {{ konkurs.konkurs_name }}. 
 
 Mvh
 Espen Holmstrand
-Sales Manager
+Daglig leder
 Sabba Invest AS
 www.ksalg.no
-Phone: +47 955 55 531
-Ksalg.no eies og driftes av selskapet Sabba Invest AS org: 929 2554 6135
+Tlf: +47 955 55 531
+Ksalg.no eies og driftes av selskapet Sabba Invest AS 
+org: 925546135
                     </textarea>
                 </a-col>
             </a-row>
