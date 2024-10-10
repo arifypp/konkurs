@@ -23,6 +23,6 @@ class AdminSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
         // assign admin role to the user
-        // $admin->assignRole('admin');
+        $admin->assignRole('admin');
     }
 }
