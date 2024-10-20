@@ -45,14 +45,14 @@
                 <!-- Form right -->
                 <a-col :span="12">
                     <a-form-item label="Konkurs website" name="website">
-                        <a-input v-model:value="form.website" />
+                        <a-input v-model:value="form.website" autocomplete="off"/>
                     </a-form-item>
                 </a-col>
                 <!-- Form left -->
                 <a-col :span="12">
-                    <a-form-item label="Konkurs phone" name="phone">
+                    <a-form-item label="Konkurs phone" name="phone" autocomplete="off">
                         <a-input-group compact>
-                            <a-input style="width: 70%" v-model:value="form.phone" @input="form.phone = form.phone.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')" />
+                            <a-input style="width: 70%" v-model:value="form.phone" @input="form.phone = form.phone.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')" allowClear autocomplete="off"/>
                             <a-button type="primary" style="width: 30%" @click="onSearch" :loading="SearchLoading">
                                 <template #icon>
                                     <search-outlined />
@@ -88,13 +88,13 @@
                 <a-divider />
                 <!-- Advocate email and phone -->
                 <a-col :span="12">
-                    <a-form-item label="Konkurs Advocate Name" name="advocaname">
-                        <a-input v-model:value="form.advocaname" />
+                    <a-form-item label="Konkurs Advocate Name" name="advocaname" autocomplete="off">
+                        <a-input v-model:value="form.advocaname" autocomplete="off"/>
                     </a-form-item>
                 </a-col>
                 <a-col :span="12">
-                    <a-form-item label="Konkurs Advocate Email" name="advocateemail">
-                        <a-input v-model:value="form.advocateemail" />
+                    <a-form-item label="Konkurs Advocate Email" name="advocateemail" autocomplete="off">
+                        <a-input v-model:value="form.advocateemail" autocomplete="off"/>
                     </a-form-item>
                 </a-col>
             </a-row>

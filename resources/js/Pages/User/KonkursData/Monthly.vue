@@ -13,56 +13,7 @@
         </a-button>
         </template>
         <a-row type="flex" gutter="16">
-            <a-col :span="5" :order="1">
-                <a-menu
-                    v-model:openKeys="openKeys"
-                    v-model:selectedKeys="selectedKeys"
-                    mode="vertical"
-                    style="width: 100%; height: 100vh;"
-                >
-                    <a-menu-item key="1" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.index') }">
-                        <template #icon>
-                            <MailOutlined />
-                        </template>
-                        <Link :href="route('user.konkurs.index')">
-                            All Konkurs
-                        </Link>
-                    </a-menu-item>
-                    <a-menu-item key="2" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.today') }">
-                        <template #icon>
-                            <CalendarOutlined />
-                        </template>
-                        <Link :href="route('user.konkurs.today')">
-                            Today Konkurs
-                        </Link>
-                    </a-menu-item>
-                    <a-menu-item key="3" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.yesterday') }">
-                        <template #icon>
-                            <CalendarOutlined />
-                        </template>
-                        <Link :href="route('user.konkurs.yesterday')">
-                            Yesterday Konkurs
-                        </Link>
-                    </a-menu-item>
-                    <a-menu-item key="4" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.monthly') }">
-                        <template #icon>
-                            <CalendarOutlined />
-                        </template>
-                        <Link :href="route('user.konkurs.monthly')">
-                            Monthly Konkurs
-                        </Link>
-                    </a-menu-item>
-                    <a-menu-item key="5" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.yearly') }">
-                        <template #icon>
-                            <CalendarOutlined />
-                        </template>
-                        <Link :href="route('user.konkurs.yearly')">
-                            Yearly Konkurs
-                        </Link>
-                    </a-menu-item>
-                </a-menu>
-            </a-col>
-            <a-col :span="19" :order="2">
+            <a-col :span="24" :order="2">
                 <a-card style="width: 100%; height: 100%; padding: 0px;">
                     <a-card-meta title="Today Konkurs List" description="https://w2.brreg.no/kunngjoring/index.jsp" /> 
                     <a-divider />

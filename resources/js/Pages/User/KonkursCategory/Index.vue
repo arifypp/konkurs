@@ -49,6 +49,7 @@
         width="50%"
         :footer-style="{ textAlign: 'right' }"
         :maskClosable="false"
+        :loading="form.processing"
       >
         <a-form 
             layout="vertical" 
@@ -56,6 +57,7 @@
             :validate-messages="validateMessages"
             :model="form"
             :rules="rules"
+            :loading="loading"
         >
           <a-form-item 
             label="Name"

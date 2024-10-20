@@ -8,6 +8,9 @@ import {
     DownOutlined,
     ApartmentOutlined,
     DatabaseOutlined,
+    CalendarOutlined,
+    PieChartOutlined,
+    BarChartOutlined,
 } from '@ant-design/icons-vue';
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
@@ -45,33 +48,57 @@ const handleClick = (e) => {
             </Link>
         </div>
         <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline" :inline-collapsed="collapsed" :openKeys="openKeys" @openChange="onOpenChange">
-            <a-menu-item-group title="Application Dashboard" />
+            <a-menu-item-group title="App Features" />
             <a-menu-item key="dashboard" :class="{ 'ant-menu-item-selected': route().current('user.dashboard') }">
                 <Link :href="route('user.dashboard')">
                     <dashboard-outlined /><span>Dashboard</span>
                 </Link>
             </a-menu-item>
-            <a-menu-item-group title="App Features" />
-            <a-sub-menu key="konkurs_cat" :class="{ 'ant-menu-item-selected': route().current('user.konkurs-category.index') }">
-                <template #title>
-                    <span><apartment-outlined />
-                    <span>Konkurs Category</span>
-                    </span>
+            <!-- Konkurs Category -->
+            <a-menu-item key="category" :class="{ 'ant-menu-item-selected': route().current('user.konkurs-category.index') }">
+                <Link :href="route('user.konkurs-category.index')">
+                    <apartment-outlined /><span>Konkurs Category</span>
+                </Link>
+            </a-menu-item>
+            <!-- Konkurs Total -->
+            <a-menu-item key="konkurs-index" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.index') }">
+                <Link :href="route('user.konkurs.index')">
+                    <database-outlined /><span>Konkurs Total</span>
+                </Link>
+            </a-menu-item>
+            <!-- Today Konkurs Data -->
+            <a-menu-item key="konkurs-today" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.today') }">
+                <template #icon>
+                    <CalendarOutlined />
                 </template>
-                <a-menu-item key="sub1-2">
-                    <Link :href="route('user.konkurs-category.index')">Manage Category</Link>
-                </a-menu-item>
-            </a-sub-menu>
-            <a-sub-menu key="sub2-2" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.index') }">
-                <template #title>
-                    <span><database-outlined />
-                    <span>All Konkurs</span>
-                    </span>
+                <Link :href="route('user.konkurs.today')">
+                    Today Konkurs
+                </Link>
+            </a-menu-item>
+            <a-menu-item key="konkurs-yesterday" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.yesterday') }">
+                <template #icon>
+                    <CalendarOutlined />
                 </template>
-                <a-menu-item key="konkurs-manage">
-                    <Link :href="route('user.konkurs.index')">Manage Konkurs</Link>
-                </a-menu-item>
-            </a-sub-menu>
+                <Link :href="route('user.konkurs.yesterday')">
+                    Yesterday Konkurs
+                </Link>
+            </a-menu-item>
+            <a-menu-item key="konkurs-monthly" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.monthly') }">
+                <template #icon>
+                    <CalendarOutlined />
+                </template>
+                <Link :href="route('user.konkurs.monthly')">
+                    Monthly Konkurs
+                </Link>
+            </a-menu-item>
+            <a-menu-item key="konkurs-yearly" :class="{ 'ant-menu-item-selected': route().current('user.konkurs.yearly') }">
+                <template #icon>
+                    <CalendarOutlined />
+                </template>
+                <Link :href="route('user.konkurs.yearly')">
+                    Yearly Konkurs
+                </Link>
+            </a-menu-item>
         </a-menu>
     </a-layout-sider>
 </template>
