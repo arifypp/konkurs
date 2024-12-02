@@ -54,6 +54,12 @@ const handleClick = (e) => {
                     <dashboard-outlined /><span>Dashboard</span>
                 </Link>
             </a-menu-item>
+            <!-- Konkurs Email Restriction -->
+             <a-menu-item key="email-restrictions" :class="{ 'ant-menu-item-selected': route().current('user.email-restrictions.index') }">
+                <Link :href="route('user.email-restrictions.index')">
+                    <user-outlined /><span>Konkurs Email Restriction</span>
+                </Link>
+            </a-menu-item>
             <!-- Konkurs Category -->
             <a-menu-item key="category" :class="{ 'ant-menu-item-selected': route().current('user.konkurs-category.index') }">
                 <Link :href="route('user.konkurs-category.index')">

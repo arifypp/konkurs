@@ -38,6 +38,9 @@ Route::middleware(['auth', 'verified'])->prefix('user')->name('user.')->namespac
     //*================== KonkursCategory ==================*//
     Route::resource('konkurs-category', 'KonkursCategoryController');
 
+    /* =================== Email Restrictions ==================* */
+    Route::resource('email-restrictions', 'EmailRestrictionsController');
+
     //*================== Konkurs ==================*//
     Route::prefix('konkurs')->group(function () {
         Route::get('/', 'KonkursDataController@index')->name('konkurs.index');

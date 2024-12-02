@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KonkursExport;
+use App\Models\EmailRestriction;
 class KonkursDataController extends Controller
 {
     public function __construct()
@@ -160,14 +161,24 @@ class KonkursDataController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Check if email is restricted first
+        $isRestricted = EmailRestriction::query()
+            ->where('email', $request->input('advocateemail'))
+            ->exists();
+
+        if ($isRestricted) {
+            return Redirect::back()
+                ->withErrors(['advocateemail' => 'ইমেইলটি ব্লাকলিস্টে আছে.'])
+                ->withInput();
+        }
+
         $request->validate([
             'name' => 'required|max:255',
             'phone' => 'required|max:255',
             'category' => 'required',
             'address' => 'required|max:255',
             'industry_position' => 'required',
-            'advocateemail' => 'required',
+            'advocateemail' => 'required|email|not_exists:email_restrictions,email',
             'advocaname' => 'required',
         ]);
 
