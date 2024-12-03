@@ -178,7 +178,7 @@ class KonkursDataController extends Controller
             'category' => 'required',
             'address' => 'required|max:255',
             'industry_position' => 'required',
-            'advocateemail' => 'required|email|not_exists:email_restrictions,email',
+            'advocateemail' => 'required',
             'advocaname' => 'required',
         ]);
 
